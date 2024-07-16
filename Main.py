@@ -2,8 +2,10 @@ import streamlit as st
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
+import json
+key_dict = json.loads(st.secrets["textkey"])
 
-cred = credentials.Certificate('secrets.json')
+cred = credentials.Certificate(key_dict)
 
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred, {
@@ -24,7 +26,7 @@ with col2:
     st.session_state.name = st.text_input("학번 / 이름")
     if st.button("등록", type="primary"):
         ref2=db.reference()
-        ref2.set({'user':st.session_state.name })
+        ref2.update({'user':st.session_state.name })
 
 
 st.markdown("**To Do List**")
